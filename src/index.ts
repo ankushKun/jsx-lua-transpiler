@@ -1,4 +1,4 @@
-export function transpileLuaX(luaCode: string): string {
+function transpileLuaX(luaCode: string): string {
     // Regular expression to match opening tags with their content
     const tagRegex = /<([a-zA-Z0-9-]+)((?:\s+[a-zA-Z0-9-]+(?:="[^"]*")?)*)\s*>([\s\S]*?)<\/\1>/g;
 
@@ -77,12 +77,13 @@ export function transpileLuaX(luaCode: string): string {
         return processedContent;
     }
 
-    // Split the code into parts, preserving string literals
+    // Split the code into parts, preserving string literals and Lua code
     const parts: string[] = [];
     let currentIndex = 0;
     let inString = false;
     let stringType = '';
     let stringContent = '';
+    let currentPart = '';
 
     for (let i = 0; i < luaCode.length; i++) {
         const char = luaCode[i];
@@ -91,12 +92,16 @@ export function transpileLuaX(luaCode: string): string {
         if (!inString) {
             // Check for string start
             if (char === '"' || char === "'" || (char === '[' && nextChar === '[')) {
+                if (currentPart) {
+                    parts.push(currentPart);
+                    currentPart = '';
+                }
                 inString = true;
                 stringType = char === '[' ? '[[' : char;
                 stringContent = char === '[' ? '[' : char;
                 continue;
             }
-            parts.push(char);
+            currentPart += char;
         } else {
             // Inside string
             stringContent += char;
@@ -113,6 +118,10 @@ export function transpileLuaX(luaCode: string): string {
                 stringContent = '';
             }
         }
+    }
+
+    if (currentPart) {
+        parts.push(currentPart);
     }
 
     // Process only the non-string parts
