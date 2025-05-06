@@ -1,4 +1,4 @@
-function transpileLuaX(luaCode: string): string {
+export function transpileLuaX(luaCode: string): string {
     // Regular expression to match opening tags with their content
     const tagRegex = /<([a-zA-Z0-9-]+)((?:\s+[a-zA-Z0-9-]+(?:="[^"]*")?)*)\s*>([\s\S]*?)<\/\1>/g;
 
