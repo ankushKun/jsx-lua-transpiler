@@ -1,16 +1,65 @@
 # jsx-lua-transpiler
 
-To install dependencies:
+This package transpiles JSX-like syntax into Lua tables. This tool allows you to write HTML-like markup in your Lua code and converts it into a structured Lua table representation.
+
+## Installation
 
 ```bash
-bun install
+npm install jsx-lua-transpiler
 ```
 
-To run:
+## Usage
 
-```bash
-bun run index.ts
+```typescript
+import { transpileLuaX } from 'jsx-lua-transpiler';
+
+const luaCode = `
+local element = <div class="container">
+    <h1>Hello World</h1>
+    <img src="image.jpg" alt="An image" />
+</div>
+
+print(element)
+`;
+
+const transpiled = transpileLuaX(luaCode);
 ```
 
-This project was created using `bun init` in bun v1.2.4. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
-# jsx-lua-transpiler
+## Output Format
+
+The transpiler converts JSX-like syntax into Lua tables with the following structure:
+
+```lua
+local element = {
+    type = "html",
+    name = "div",
+    atts = {
+        class = "container"
+    },
+    children = {
+        {
+            type = "html",
+            name = "h1",
+            atts = {},
+            children = {
+                { type = "text", text = "Hello World" }
+            }
+        },
+        {
+            type = "html",
+            name = "img",
+            atts = {
+                src = "image.jpg",
+                alt = "An image"
+            },
+            children = {}
+        }
+    }
+}
+
+print(element)
+```
+
+## License
+
+MIT

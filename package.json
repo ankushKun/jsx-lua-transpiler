@@ -1,0 +1,38 @@
+{
+  "name": "jsx-lua-transpiler",
+  "description": "transpile jsx syntax to lua tables",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "repository": {
+    "url": "git+https://github.com/ankushKun/jsx-lua-transpiler.git",
+    "type": "git"
+  },
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "keywords": [
+    "jsx",
+    "lua",
+    "transpiler"
+  ],
+  "scripts": {
+    "build": "tsc && npm run build:browser && npm run build:esm",
+    "build:browser": "esbuild src/index.ts --bundle --format=iife --global-name=aofetch --outfile=dist/browser.js",
+    "build:esm": "esbuild src/index.ts --bundle --format=esm --outfile=dist/browser.mjs"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "esbuild": "^0.20.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "ankushKun",
+    "email": "ankush4singh@gmail.com",
+    "url": "https://ankush.one"
+  }
+}
